@@ -1,0 +1,27 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: #b1b1b1;
+  padding: 10px;
+  height: 5%;
+}
+
+.navbar_left {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  width: 250px;
+  height: auto;
+}
+
+.links a {
+  color: black;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
