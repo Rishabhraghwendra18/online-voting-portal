@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import styles from "./index.module.css";
 
 function Navbar() {
@@ -7,8 +8,8 @@ function Navbar() {
       <div className={styles.navbar_left}>
         <img className={styles.icon} src='/eci-logo.svg'></img>
         <div className={styles.links}>
-          <a href="/voter">Voter</a>
-          <a href="/admin">Admin</a>
+          <Link href="/">Voter</Link>
+          <Link href="/admin">Admin</Link>
         </div>
       </div>
     </nav>

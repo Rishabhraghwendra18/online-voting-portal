@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from "./index.module.css"
 
-function Button() {
+function Button({placeholder}) {
   return (
-    <button className={styles.vote_button}>Vote</button>
+    <button className={styles.vote_button}>{placeholder}</button>
   )
 }
 
