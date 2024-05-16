@@ -17,7 +17,7 @@ function VoterDashboard() {
   return (
     <div className={styles.home_container}>
       <Navbar/>
-      <span>Area: Vikas Puri Consitutency</span>
+      <h2>Area: Vikas Puri Constituency, New Delhi</h2>
       <div className={styles.table_container}>
       <table className={styles.party_table}>
       <thead>
