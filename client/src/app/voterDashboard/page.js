@@ -24,7 +24,7 @@ function VoterDashboard() {
         id:selectedPartyToVote
       }
       const res = await castVote(payload);
-      setSuccessFullVoteCast
+      setSuccessFullVoteCast(true)
     } catch (error) {
       console.log("Error while casting vote: ",error);
       setErrorVoteCast(true)

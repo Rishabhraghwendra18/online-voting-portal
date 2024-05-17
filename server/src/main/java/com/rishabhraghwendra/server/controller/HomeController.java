@@ -43,10 +43,10 @@ public List<Party> getVotes(){
     @PostMapping("/voter")
     public ResponseEntity<VoterResponse> getVoter(@RequestBody VoterRequest voterRequest){
         Voter vote = homeService.getVoter(voterRequest.getVoterId());
-        if (vote == null){
-            return new ResponseEntity<>(new VoterResponse(false),HttpStatus.OK);
+        if (vote != null){
+            return new ResponseEntity<>(new VoterResponse(true),HttpStatus.OK);
         }
-        return new ResponseEntity<>(new VoterResponse(true),HttpStatus.OK);
+        return new ResponseEntity<>(new VoterResponse(false),HttpStatus.OK);
     }
     @PostMapping("/addvoter")
     public ResponseEntity<VoterResponse> setVoter(@RequestBody VoterRequest voterRequest){

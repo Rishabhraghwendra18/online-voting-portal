@@ -4,7 +4,7 @@ import React,{useState} from "react";
 import Button from "../button";
 import styles from "./index.module.css";
 import Alert from '@mui/material/Alert';
-import { checkVoter } from "@/service";
+import { checkVoter,addVoter } from "@/service";
 import { useRouter } from 'next/navigation';
 
 function LoginContainer({isAdmin=false}) {
@@ -20,7 +20,14 @@ function LoginContainer({isAdmin=false}) {
         voterId
       }
       const res = await checkVoter(payload);
-
+      console.log("res: ",res.data)
+      if(res.data.isVoterVotedAlready){
+        throw "Voter Already Exists!"
+      }
+      else{
+        const res = await addVoter(payload);
+        push('/voterDashboard')
+      }
     } catch (error) {
       console.log("Some error occurred while checking voter: ",error)
       setOpenErrorAlert(true)
