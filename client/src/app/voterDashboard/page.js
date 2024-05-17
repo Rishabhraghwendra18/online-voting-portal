@@ -4,15 +4,32 @@ import React,{useState} from 'react'
 import styles from "./page.module.css";
 import Navbar from "@/components/navbar";
 import Button from '@/components/button';
+import Alert from '@mui/material/Alert';
+import { castVote } from '@/service';
 
 function VoterDashboard() {
   const parties = [
-    { symbol: '🦅', name: 'BJP' },
-    { symbol: '🌹', name: 'Congress' },
-    { symbol: '🌿', name: 'AAP' },
-    { symbol: '🐘', name: 'TMC' }
+    { id:1,symbol: '🦅', name: 'BJP' },
+    { id:2,symbol: '🌹', name: 'Congress' },
+    { id:3,symbol: '🌿', name: 'AAP' },
+    { id:4,symbol: '🐘', name: 'TMC' }
   ];
   const [selectedParty, setSelectedParty] = useState(null);
+  const [selectedPartyToVote, setSelectedPartyToVote] = useState();
+  const [successFullVoteCast, setSuccessFullVoteCast] = useState(false);
+  const [errorVoteCast, setErrorVoteCast] = useState(false);
+  const onClickVote=async()=>{
+    try {
+      let payload={
+        id:selectedPartyToVote
+      }
+      const res = await castVote(payload);
+      setSuccessFullVoteCast
+    } catch (error) {
+      console.log("Error while casting vote: ",error);
+      setErrorVoteCast(true)
+    }
+  }
 
   return (
     <div className={styles.home_container}>
@@ -35,7 +52,10 @@ function VoterDashboard() {
                 type="radio"
                 name="party"
                 checked={selectedParty === index}
-                onChange={() => setSelectedParty(index)}
+                onChange={() => {
+                  setSelectedParty(index)
+                  setSelectedPartyToVote(party.id)
+                }}
               />
             </td>
             <td>{party.symbol}</td>
@@ -44,8 +64,10 @@ function VoterDashboard() {
         ))}
       </tbody>
     </table>
-        <Button placeholder={"Vote"}/>
+        <Button placeholder={"Vote"} onClick={onClickVote}/>
       </div>
+      {successFullVoteCast && <Alert severity="success">Casted Vote Successfully. You can close the tab</Alert>}
+      {errorVoteCast && <Alert severity="error">Error while casting vote</Alert>}
     </div>
   )
 }
