@@ -1,14 +1,42 @@
-import React from "react";
+'use client'
+import React,{useState,useEffect} from "react";
 import styles from "./page.module.css";
 import Navbar from "@/components/navbar";
+import { getParties } from '@/service';
 
 function Dashboard() {
-  const parties = [
-    { symbol: "🦅", name: "BJP", votes: 1200 },
-    { symbol: "🌹", name: "Congress", votes: 900 },
-    { symbol: "🌿", name: "AAP", votes: 1500 },
-    { symbol: "🐘", name: "TMC", votes: 2000 },
-  ];
+  // const parties = [
+  //   { symbol: "🦅", name: "BJP", votes: 1200 },
+  //   { symbol: "🌹", name: "Congress", votes: 900 },
+  //   { symbol: "🌿", name: "AAP", votes: 1500 },
+  //   { symbol: "🐘", name: "TMC", votes: 2000 },
+  // ];
+  const partiesSymbol={
+    'BJP':'🦅',
+    'Congress':'🌹',
+    'AAP':'🌿',
+    'TMC':'🐘',
+    'JDU':'🐘'
+  }
+  const [parties, setParties] = useState([]);
+  
+  const getPartiesList = async ()=>{
+    try {
+      const res = await getParties();
+      const data = res.data;
+      let parties = data?.map(party=>({
+        ...party,
+        name:party?.partyName,
+        symbol:partiesSymbol[party?.partyName]
+      }))
+      setParties(parties);
+    } catch (error) {
+      console.log("Error while fetching parties: ",error);
+    }
+  }
+  useEffect(()=>{
+    getPartiesList()
+  },[])
   return (
     <div className={styles.home_container}>
       <Navbar />

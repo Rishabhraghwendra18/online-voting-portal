@@ -21,7 +21,7 @@ function LoginContainer({isAdmin=false}) {
       }
       const res = await checkVoter(payload);
       console.log("res: ",res.data)
-      if(res.data.isVoterVotedAlready){
+      if(res.data?.voterVotedAlready){
         throw "Voter Already Exists!"
       }
       else{

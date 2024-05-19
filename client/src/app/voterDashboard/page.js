@@ -1,20 +1,28 @@
 'use client'
 
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import styles from "./page.module.css";
 import Navbar from "@/components/navbar";
 import Button from '@/components/button';
 import Alert from '@mui/material/Alert';
-import { castVote } from '@/service';
+import { castVote, getParties } from '@/service';
 
 function VoterDashboard() {
-  const parties = [
-    { id:1,symbol: '🦅', name: 'BJP' },
-    { id:2,symbol: '🌹', name: 'Congress' },
-    { id:3,symbol: '🌿', name: 'AAP' },
-    { id:4,symbol: '🐘', name: 'TMC' }
-  ];
+  // const parties = [
+  //   { id:1,symbol: '🦅', name: 'BJP' },
+  //   { id:2,symbol: '🌹', name: 'Congress' },
+  //   { id:3,symbol: '🌿', name: 'AAP' },
+  //   { id:4,symbol: '🐘', name: 'TMC' }
+  // ];
+  const partiesSymbol={
+    'BJP':'🦅',
+    'Congress':'🌹',
+    'AAP':'🌿',
+    'TMC':'🐘',
+    'JDU':'🐘'
+  }
   const [selectedParty, setSelectedParty] = useState(null);
+  const [parties, setParties] = useState([]);
   const [selectedPartyToVote, setSelectedPartyToVote] = useState();
   const [successFullVoteCast, setSuccessFullVoteCast] = useState(false);
   const [errorVoteCast, setErrorVoteCast] = useState(false);
@@ -30,6 +38,23 @@ function VoterDashboard() {
       setErrorVoteCast(true)
     }
   }
+  const getPartiesList = async ()=>{
+    try {
+      const res = await getParties();
+      const data = res.data;
+      let parties = data?.map(party=>({
+        ...party,
+        name:party?.partyName,
+        symbol:partiesSymbol[party?.partyName]
+      }))
+      setParties(parties);
+    } catch (error) {
+      console.log("Error while fetching parties: ",error);
+    }
+  }
+  useEffect(()=>{
+    getPartiesList()
+  },[])
 
   return (
     <div className={styles.home_container}>
